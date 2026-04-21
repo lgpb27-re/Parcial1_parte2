@@ -10,12 +10,18 @@ class Proceso {
         cant=limite;
         v = new int[cant];
     }
-    public void asignar(int i, int dato,int cant){
+    public void asignar(int i, int dato){
         v[i]=dato;
-        for(i=0;i<cant;i++){
-            v[i+1]=v[i];
-        }
     }
+
+    public void desplazar(int cant){
+        int ultimo = v[cant-1];
+        for (int i = cant-1; i > 0; i--){
+            v[i] = v[i-1];
+        }
+        v[0] = ultimo;
+    }
+
     public int getV(int i){
         return v[i];
     }
@@ -37,38 +43,31 @@ class Main {
                 }
                 else{
                     error=false;
+                    obj.Arreglo3(cantElem);
                 }
             }
-            catch(IOException e){
+            catch(IOException | NumberFormatException e){
                 System.out.println("Error... en la entrada de datos");
                 error=true;
             }
-            catch(NumberFormatException e){
-                System.out.println("Error.. al convertir los datos");
-                error=true;
-            }
-        
         }while(error==true);
-
-
 
         for(int i=0; i<cantElem;i++){
             try{
                 System.out.println("Ingrese el numero del elemento "+ i+1 + " :");
                 num=Integer.parseInt(br.readLine());
-                obj.asignar(i, num, cantElem);
+                obj.asignar(i, num);
             }
-            catch(IOException e ){
+            catch(IOException | NumberFormatException e ){
                 System.out.println("Error..en la entrada de datos");
                 i--;
             }
-            catch(NumberFormatException e){
-                System.out.println("Error..al convertir los datos");
-                i--;
-            }
         }
+
+        obj.desplazar(cantElem);
+        System.out.println("\nArreglo desplazado a la derecha:");
         for(int i=0; i<cantElem;i++){
-            System.out.print('\t'+obj.getV(i));
+            System.out.print("["+obj.getV(i)+"]");
         }
         System.out.print("Modificación");
     }
